@@ -1,6 +1,6 @@
-# Chrome Extension Project
+# AI Summarizer Chrome Extension
 
-This project is a Chrome extension that enhances the browsing experience by providing additional features.
+This project is a Chrome extension that uses AI to summarize web page content.
 
 ## Project Structure
 
@@ -29,7 +29,7 @@ Note: The `config.js` file is ignored by git (via .gitignore) for security purpo
 
 ## Usage
 
-Click the extension icon in the Chrome toolbar to open the popup and access its features.
+Click the AI Summarizer icon in the Chrome toolbar to open the popup. Press the "Summarize Page" button to get an AI-generated summary of the current webpage.
 
 ## License
 
