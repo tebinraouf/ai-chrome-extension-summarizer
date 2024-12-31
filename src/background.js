@@ -1,4 +1,5 @@
 import config from '/src/config.js';
+import { getSummary } from './api.js';
 
 // This file contains the background script for the Chrome extension.
 // It handles events such as browser actions and messages from other parts of the extension.
@@ -29,23 +30,22 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         const selectedText = info.selectionText;
         
         try {
-            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${config.GROK_API_KEY}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    model: "llama3-70b-8192",
-                    messages: [{
-                        role: "user",
-                        content: `You are an AI assistant to summarize long texts. Summarize this text into 2-3 meaningful sentences. Text: ${selectedText}`
-                    }]
-                })
+            // First, show the age selector UI
+            await chrome.tabs.sendMessage(tab.id, {
+                action: "showAgeSelector"
             });
 
-            const data = await response.json();
-            const summary = data.choices[0].message.content;
+            // Wait for age selection
+            const age = await new Promise(resolve => {
+                chrome.runtime.onMessage.addListener(function listener(request) {
+                    if (request.action === "ageSelected") {
+                        chrome.runtime.onMessage.removeListener(listener);
+                        resolve(request.age);
+                    }
+                });
+            });
+
+            const summary = await getSummary(selectedText, age);
             
             // Send the summary to the content script
             chrome.tabs.sendMessage(tab.id, {
