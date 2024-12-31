@@ -11,6 +11,15 @@ This project is a Chrome extension that enhances the browsing experience by prov
 - `src/popup/popup.css`: Styles for the popup.
 - `manifest.json`: Configuration file for the Chrome extension.
 
+## Configuration
+
+1. Locate [src/config_sample.js](src/config_sample.js) in the project directory
+2. Create a copy named `config.js` in the same directory
+3. Open `config.js` and replace `'YOUR_API_KEY_HERE'` with your Grok API key
+4. Save the file
+
+Note: The `config.js` file is ignored by git (via .gitignore) for security purposes
+
 ## Installation
 
 1. Clone the repository.
